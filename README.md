@@ -22,6 +22,9 @@
 3. 50% - Swagger 撰寫學習
 
 # 前情提要
-- 已成功試寫 POST API swagger doc
-- 開發 insert 調酒品項 API 
-- 試寫 GET API swagger doc
+- 已開發 POST 查詢調酒品項 API
+- 已成功試寫 POST 查詢調酒品項 API swagger doc
+- 已開發 PUT 新增/更新 調酒品項 API
+- 未試寫 PUT 新增/更新 調酒品項 API swagger doc 
+- 未開發 GET API 
+- 未試寫 GET API swagger doc

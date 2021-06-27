@@ -41,8 +41,7 @@ const CocktailList = sequelize.define('cocktail_list',
         },
         cockliCreateTime: {
             type: DataTypes.DATE,
-            allowNull: false, 
-            defaultValue: Sequelize.NOW,
+            allowNull: true,
         },
     },
     {
