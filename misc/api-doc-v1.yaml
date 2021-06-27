@@ -1,0 +1,110 @@
+openapi: 3.0.1
+info:
+  title: "garagebar-api"  
+  description: "This is for garagebar app."
+  version: "1.0.0"
+servers:
+  - url: 'http://localhost:3000/v1'
+paths:  
+  /products/list:
+    post:
+      tags:
+        - products 產品
+      summary: 取得調酒品項清單
+      description: |
+        該 API 作為調酒品項搜尋之用，每個欄位僅提供精準比對 <br>
+        
+        欄位說明： <br>
+        cockliClass (調酒類別) <br>
+        1=經典調酒 / 2=創意調酒
+
+        cockliBase (主要基酒) <br>
+        1=威士忌 / 2=伏特加 / 3=蘭姆酒 / 4=琴酒 / 5=白蘭地 / 6=龍舌蘭 / 7=高粱酒 / 98=複合基酒 / 99=無基酒
+
+        ---
+        ex1: <b>若 空object，則取得全部調酒品項</b>
+        ```
+        {}
+        ```
+
+        ex2: <b>cockliClass=1，取得 調酒類別為經典調酒的品項</b>
+        ```
+        {
+          "cockliClass" : 1
+        }
+        ```
+
+        ex3: <b> cockliClass=1 + cockliBase=1，取得 調酒類別為經典調酒 and 主要基酒為威士忌 的調酒品項</b>
+        ```
+        {
+          "email" : 1,
+          "phoneNum" : 1
+        }
+        ```
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cockliChaName:
+                  type: string
+                  description: 中文調酒名
+                  example: 威士忌酸
+                cockliEngName:
+                  type: string
+                  description: 英文調酒名
+                  example: Wiskey Sour
+                cockliClass:
+                  type: integer
+                  description: 調酒類別
+                  example: 1
+                cockliBase:
+                  type: integer
+                  description: 主要基酒
+                  example: 1
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              examples:      
+                OK:
+                  summary: ok 
+                  value:
+                    result:
+                      - cockliSerNo: 1
+                        cockliChaName: "威士忌酸"
+                        cockliEngName: "Wiskey Sour"
+                        cockliClass: 1
+                        cockliBase: 1
+                        cockliUpdateTime: "2021-06-21T21:57:46.000Z"
+                        cockliCreateTime: "2021-06-21T21:57:46.000Z"
+                      - cockliSerNo: "酒單流水號"
+                        cockliChaName: "中文調酒名"
+                        cockliEngName: "英文調酒名"
+                        cockliClass: "調酒類別"
+                        cockliBase: "主要基酒"
+                        cockliUpdateTime: "更新時間"
+                        cockliCreateTime: "建立時間"
+                NotFound:
+                  summary: 無資料 
+                  value:
+                    result: []
+        500:
+          $ref: '#/components/responses/500ServerError'
+
+components:
+  responses:
+    500ServerError:
+      description: Server端錯誤
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Server Internal Fault."
+      

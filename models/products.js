@@ -1,40 +1,58 @@
 const { Sequelize, DataTypes } = require('sequelize');
-
 const sequelize = require('./dba').sequelize;
 
-const Product = sequelize.define('Product', 
+const CocktailList = sequelize.define('cocktail_list', 
     {
-        prodNo: {
+        cockliSerNo: {
             type: DataTypes.INTEGER,
             primaryKey: true,
         },
-        prodChineseName: {
+        cockliChaName: {
             type: DataTypes.STRING,
             allowNull: true,
+            validate: {
+                len: [0, 50],
+            },
         },
-        prodEngName: {
+        cockliEngName: {
             type: DataTypes.STRING,
             allowNull: true, // default true
+            validate: {
+                len: [0, 50],
+            },
         },
-        prodUpdateDate: {
-            type: DataTypes.DATE,
+        cockliClass: {
+            type: DataTypes.INTEGER,
             allowNull: true,
+        },
+        cockliBase: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 99,
+            validate: {
+                min: 0,
+                max: 999,
+            },
+        },
+        cockliUpdateTime: {
+            type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: Sequelize.NOW,
         },
-        prodCreateDate: {
+        cockliCreateTime: {
             type: DataTypes.DATE,
-            allowNull: true, 
+            allowNull: false, 
             defaultValue: Sequelize.NOW,
         },
     },
     {
         // Model options
-        tableName: 'products',
+        tableName: 'cocktail_list',
         timestamps: false,
     },
 );
 
 
 module.exports = {
-    Product,
+    CocktailList,
 };
