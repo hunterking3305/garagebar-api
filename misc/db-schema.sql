@@ -9,8 +9,8 @@ CREATE TABLE cocktail_list (
     cockliEngName      varchar(50)                                                COMMENT "英文調酒名",
     cockliClass        int(3)                                                     COMMENT "調酒類別",
     cockliBase         int(3)                NOT NULL DEFAULT 99                  COMMENT "主要基酒",
-    cockliUpdateTime   datetime              NOT NULL                             COMMENT "更新時間",
-    cockliCreateTime   datetime              NOT NULL DEFAULT CURRENT_TIMESTAMP   COMMENT "建立時間",
+    updatedAt          datetime              NOT NULL                             COMMENT "更新時間",
+    createdAt          datetime              NOT NULL DEFAULT CURRENT_TIMESTAMP   COMMENT "建立時間",
     -- cockliUpdateTime   datetime              NOT NULL                COMMENT "更新時間",
     -- cockliCreateTime   datetime              NOT NULL                COMMENT "建立時間",
     PRIMARY KEY (cockliSerNo)

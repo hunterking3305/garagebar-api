@@ -52,10 +52,71 @@ paths:
                   type: string
                   description: 中文調酒名
                   example: 威士忌酸
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              examples:      
+                OK:
+                  summary: ok 
+                  value:
+                    result:
+                      - cockliSerNo: 1
+                        cockliChaName: "威士忌酸"
+                        cockliEngName: "Wiskey Sour"
+                        cockliClass: 1
+                        cockliBase: 1
+                        updatedAt: "2021-06-21T21:57:46.000Z"
+                        createdAt: "2021-06-21T21:57:46.000Z"
+                      - cockliSerNo: "酒單流水號"
+                        cockliChaName: "中文調酒名"
+                        cockliEngName: "英文調酒名"
+                        cockliClass: "調酒類別"
+                        cockliBase: "主要基酒"
+                        updatedAt: "更新時間"
+                        createdAt: "建立時間"
+                NotFound:
+                  summary: 無資料 
+                  value:
+                    result: []
+        500:
+          $ref: '#/components/responses/500ServerError'
+
+  /products/cocktail/info:
+    post:
+      tags:
+        - products 產品
+      summary: 新增單筆調酒品項
+      description: |
+        該 API 作為新增調酒品項之用<br>
+        
+        使用範例說明：
+        ---
+        ex1: <b>若欲新增調酒品項欄位，則將欄位名與值放入物件中</b>
+        ```
+        {
+          "cockliChaName": "高球雞尾酒",
+          "cockliEngName": "High Ball",
+          "cockliClass": 1,
+          "cockliBase": 1
+        }
+        ```
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cockliChaName:
+                  type: string
+                  description: 中文調酒名
+                  example: 高球雞尾酒
                 cockliEngName:
                   type: string
                   description: 英文調酒名
-                  example: Wiskey Sour
+                  example: High Ball
                 cockliClass:
                   type: integer
                   description: 調酒類別
@@ -74,28 +135,75 @@ paths:
                   summary: ok 
                   value:
                     result:
-                      - cockliSerNo: 1
-                        cockliChaName: "威士忌酸"
-                        cockliEngName: "Wiskey Sour"
+                      - cockliSerNo: null,
+                        cockliChaName: "高球雞尾酒"
+                        cockliEngName: "High Ball"
                         cockliClass: 1
                         cockliBase: 1
-                        cockliUpdateTime: "2021-06-21T21:57:46.000Z"
-                        cockliCreateTime: "2021-06-21T21:57:46.000Z"
+                        updatedAt: "2021-07-03T06:48:43.296Z"
+                        createdAt: "2021-07-03T06:48:43.296Z"
                       - cockliSerNo: "酒單流水號"
                         cockliChaName: "中文調酒名"
                         cockliEngName: "英文調酒名"
                         cockliClass: "調酒類別"
                         cockliBase: "主要基酒"
-                        cockliUpdateTime: "更新時間"
-                        cockliCreateTime: "建立時間"
-                NotFound:
-                  summary: 無資料 
-                  value:
-                    result: []
+                        updatedAt: "更新時間"
+                        createdAt: "建立時間"
+        422:
+          $ref: '#/components/responses/422QueryParamsBodyErr'
         500:
           $ref: '#/components/responses/500ServerError'
 
+    put:
+      tags:
+        - products 產品
+      summary: 更新單筆調酒品項
+      parameters:
+        - $ref: '#/components/parameters/CockliSerNo'
+      description: |
+        該 API 作為更新調酒品項的欄位<br>
+        
+        使用範例說明：
+        ---
+        ex1: <b>欲更新調酒品項欄位，則將欄位名與值放入物件中</b>
+        ```
+        {
+          "cockliChaName": "長島冰茶"
+        }
+        ```
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cockliChaName:
+                  type: string
+                  description: 中文調酒名
+                  example: 長島冰茶
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              examples:      
+                OK:
+                  summary: ok
+                  value:
+                    message: ok.
+
 components:
+  parameters:
+    CockliSerNo:
+      name: cockliSerNo
+      in: query
+      description: 酒單流水號
+      required: true
+      schema:
+        type: integer
+        example: 1
+
   responses:
     500ServerError:
       description: Server端錯誤
@@ -107,4 +215,19 @@ components:
               message:
                 type: string
                 example: "Server Internal Fault."
+
+    422QueryParamsBodyErr:
+      description: query, params or body is null or wrong format
+      content:
+        application/json:
+          examples:
+            QueryIsWrong:
+              summary: 參數錯誤
+              value:
+                message:
+                  - value: "B52轟炸機"
+                    msg: ckChaName's format is wrong
+                    param: ckChaName
+                    location: query
+                code: '9100'
       

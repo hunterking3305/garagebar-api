@@ -1,8 +1,8 @@
-console.log("--- execute products.js ---");
 const express = require('express');
 const moment = require('moment');
 const router = express.Router();
 const { Op } = require("sequelize");
+const { validationResult } = require('express-validator');
 
 const CocktailList = require('../models/products').CocktailList;
 
@@ -40,48 +40,46 @@ router.post('/list', async(req, res, next) => {
     }
 });
 
-router.put("/info", async (req, res, next) => {
-    
-    let updateIndex = {};  // 設定須更新的資料
-    let payloadDate = {};  // 新增/更新 的資料欄位
-
-    // ETL Insert & Update Common Payload Data
-    Object.keys(req.body).map((key)=>{
-        if(key==="cockliSerNo"){
-            updateIndex["cockliSerNo"] = req.body[key];
-            return;
-        }
-        payloadDate[key] = req.body[key];
-    });
-
-    let dbResponse;  // DB 回應資訊
+router.post("/cocktail/info",
+    // [
+    //     query("idNum").exists().withMessage('idNum is required').isIdentityCard("zh-TW").withMessage("idNum's format is wrong"),
+    //     body("passwd").exists().withMessage('passwd is required')
+    // ],
+    async (req, res, next) => {
 
     try {
-        if(req.query.mode==="insert"){
-            // Insert SQL
-            let db_res = await CocktailList.create(payloadDate);
-
-            dbResponse = `NewRecord is ${db_res._options.isNewRecord}`;
-        }
-        else{
-            // ETL Update Specific Payload Data
-            payloadDate.cockliUpdateTime = moment().format("YYYY-MM-DD hh:mm:ss");
-
-            // Update SQL
-            dbResponse = await CocktailList.update(payloadDate, {
-                where : updateIndex,
-            });
-        }
+        // Insert SQL
+        let payload = req.body;
+        let rs = await CocktailList.create(payload);
 
         res.status(200).json({
-            result : "OK.",
-            message : dbResponse,
+            message : "ok.",
+            result : rs,
         });
-        
-    }catch(error){
-        next(error)
-    }
 
+    }catch(error){
+        next(error);
+    }
+});
+
+router.put("/cocktail/info", async (req, res, next) => {
+
+    try{
+        let updateColumns = req.body;
+        let updateItem = req.query;
+
+        // Update SQL
+        await CocktailList.update(updateColumns, {
+            where : updateItem,
+        });
+
+        res.status(200).json({
+            message : "OK.",
+        });
+
+    } catch(error){
+        next(error);
+    }
 });
 
 module.exports = router;

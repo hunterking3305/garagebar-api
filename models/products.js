@@ -34,12 +34,12 @@ const CocktailList = sequelize.define('cocktail_list',
                 max: 999,
             },
         },
-        cockliUpdateTime: {
+        updatedAt: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: Sequelize.NOW,
         },
-        cockliCreateTime: {
+        createdAt: {
             type: DataTypes.DATE,
             allowNull: true,
         },
@@ -47,7 +47,7 @@ const CocktailList = sequelize.define('cocktail_list',
     {
         // Model options
         tableName: 'cocktail_list',
-        timestamps: false,
+        timestamps: true,   // 更新/新增，資料時間戳記 (updatedAt, createdAt)
     },
 );
 
