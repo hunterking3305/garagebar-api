@@ -2,9 +2,9 @@ const express = require('express');
 const moment = require('moment');
 const router = express.Router();
 const { Op } = require("sequelize");
-const { validationResult } = require('express-validator');
 
 const CocktailList = require('../models/products').CocktailList;
+const validatorHelper = require('../utils/validator-helper.js');
 
 router.post('/list', async(req, res, next) => {
 
@@ -41,28 +41,25 @@ router.post('/list', async(req, res, next) => {
 });
 
 router.post("/cocktail/info",
-    // [
-    //     query("idNum").exists().withMessage('idNum is required').isIdentityCard("zh-TW").withMessage("idNum's format is wrong"),
-    //     body("passwd").exists().withMessage('passwd is required')
-    // ],
-    async (req, res, next) => {
+    validatorHelper.newProdBodyValid,
+    validatorHelper.validateResult,
+    async (req, res, next)=>{
+        try {
+            // Insert SQL
+            let payload = req.body;
+            let rs = await CocktailList.create(payload);
 
-    try {
-        // Insert SQL
-        let payload = req.body;
-        let rs = await CocktailList.create(payload);
+            res.status(200).json({
+                message : "ok.",
+                result : rs,
+            });
 
-        res.status(200).json({
-            message : "ok.",
-            result : rs,
-        });
-
-    }catch(error){
-        next(error);
-    }
+        }catch(error){
+            next(error);
+        }
 });
 
-router.put("/cocktail/info", async (req, res, next) => {
+router.put("/cocktail/info", async (req, res, next)=>{
 
     try{
         let updateColumns = req.body;

@@ -18,16 +18,16 @@ CREATE TABLE cocktail_list (
 
 -- 酒譜
 CREATE TABLE cocktail_recipe (    
-    recSerNo      int(11)        UNSIGNED NOT NULL AUTO_INCREMENT COMMENT "酒譜流水號", -- P.K
-    cockliSerNo   int(11)        UNSIGNED NOT NULL                COMMENT "酒單流水號", -- F.K
-    recMaterial	  varchar(200)                                    COMMENT "材料",
-    recDecoration varchar(200)                                    COMMENT "裝飾物",
-    recMethod     int(3)                                          COMMENT "調酒方式",
-    recCup        int(3)                  NOT NULL                COMMENT "容器",
-    recSteps      text                                            COMMENT "製作步驟",
-    recABV        float(6,4)                                      COMMENT "酒精濃度",
-    recUpdateTime datetime                NOT NULL                COMMENT "更新時間",
-    recCreateTime datetime                NOT NULL                COMMENT "建立時間",
+    recSerNo      int(11)      UNSIGNED NOT NULL AUTO_INCREMENT            COMMENT "酒譜流水號", -- P.K
+    cockliSerNo   int(11)      UNSIGNED NOT NULL                           COMMENT "酒單流水號", -- F.K
+    recMaterial	  varchar(200)                                             COMMENT "材料",
+    recDecoration varchar(200)                                             COMMENT "裝飾物",
+    recMethod     int(3)                                                   COMMENT "調酒方式",
+    recCup        int(3)                NOT NULL                           COMMENT "容器",
+    recSteps      text                                                     COMMENT "製作步驟",
+    recABV        float(6,4)                                               COMMENT "酒精濃度",
+    updatedAt     datetime              NOT NULL                           COMMENT "更新時間",
+    createdAt     datetime              NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "建立時間",
     PRIMARY KEY (recSerNo),
     FOREIGN KEY (cockliSerNo)  REFERENCES  cocktail_list (cockliSerNo)
 );

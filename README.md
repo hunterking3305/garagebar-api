@@ -23,9 +23,8 @@
 1. 90% - express 架構 
 2. 50% - Sequelize 應用
 3. 50% - Swagger 撰寫學習
-4.  0% - express-validator 應用
+4. 40% - express-validator 應用
 
 # 前情提要
-- 已開發 PUT 新增/更新 調酒品項 API
-- 未試寫 PUT 新增/更新 調酒品項 API swagger doc
-- 新增調酒品項 API，嘗試使用 validator middleware
+- 已使用 validator middleware，加入新增調酒品項API
+- 開發 新增 酒單＆酒譜 的 API
