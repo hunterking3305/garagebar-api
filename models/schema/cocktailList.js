@@ -1,10 +1,11 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('./dba').sequelize;
+const sequelize = require('../dba').sequelize;
 
 const CocktailList = sequelize.define('cocktail_list', 
     {
         cockliSerNo: {
             type: DataTypes.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
         },
         cockliChaName: {

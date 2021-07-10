@@ -9,6 +9,8 @@
     >> npm run devstart
 4. API Document：
     >> localhost:3000/v1/api-docs
+5. DB phpmyadmin：
+    >> 34.80.169.138:8080
 
 # 使用來源：
 1. express-generator（express 產生器）

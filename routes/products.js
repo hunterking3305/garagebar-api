@@ -1,9 +1,8 @@
 const express = require('express');
-const moment = require('moment');
 const router = express.Router();
-const { Op } = require("sequelize");
+const { Op } = require('sequelize');
 
-const CocktailList = require('../models/products').CocktailList;
+const CocktailList = require('../models/schema/cocktailList.js').CocktailList;
 const validatorHelper = require('../utils/validator-helper.js');
 
 router.post('/list', async(req, res, next) => {

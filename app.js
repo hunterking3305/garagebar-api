@@ -4,7 +4,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
+
 const productsRouter = require('./routes/products');
+const recipeRouter = require('./routes/recipe');
 
 /* Setup Swagger Documentation File Resource */
 const swaggerDocument = YAML.load('./misc/api-doc-v1.yaml');
@@ -20,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  
 // Setup products data api
 app.use('/v1/products', productsRouter);
+app.use('/v1/recipe', recipeRouter);
 
 // Setup swagger doc router
 app.use('/v1/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
