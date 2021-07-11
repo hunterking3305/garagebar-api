@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Op } = require('sequelize');
 
+const { Op } = require('sequelize');
 const CocktailList = require('../models/schema/cocktailList.js').CocktailList;
+
 const validatorHelper = require('../utils/validator-helper.js');
 
 router.post('/list', async(req, res, next) => {
@@ -35,7 +36,8 @@ router.post('/list', async(req, res, next) => {
         res.status(200).json(cocktails);
         
     }catch(error){
-        return next(error)
+        res.status(500).json({ message: "Server Internal Fault.", code: "9999" });
+        next(error);
     }
 });
 
@@ -50,10 +52,11 @@ router.post("/cocktail/info",
 
             res.status(200).json({
                 message : "ok.",
-                result : rs,
+                result : rs, // 屬性 rs._options 可取得 DB operation info
             });
 
         }catch(error){
+            res.status(500).json({ message: "Server Internal Fault.", code: "9999" });
             next(error);
         }
 });
@@ -74,6 +77,7 @@ router.put("/cocktail/info", async (req, res, next)=>{
         });
 
     } catch(error){
+        res.status(500).json({ message: "Server Internal Fault.", code: "9999" });
         next(error);
     }
 });

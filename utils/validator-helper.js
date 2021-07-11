@@ -1,7 +1,7 @@
 const { body, validationResult } = require("express-validator");
 
 // validator 參數錯誤結果
-let validateResult = (req,res,next)=>{
+let validateResult = (req, res, next)=>{
     let errors = validationResult(req); 
     if (!errors.isEmpty()) return res.status(422).json({ message: errors.array() , code : "9998" });
     next();

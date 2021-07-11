@@ -1,5 +1,3 @@
-console.log("--- execute dba.js ---");
-
 const { Sequelize } = require('sequelize');
 const dba = require('../config/config').dbConfig;
 

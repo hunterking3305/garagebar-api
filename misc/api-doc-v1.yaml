@@ -22,6 +22,7 @@ paths:
         1=威士忌 / 2=伏特加 / 3=蘭姆酒 / 4=琴酒 / 5=白蘭地 / 6=龍舌蘭 / 7=高粱酒 / 98=複合基酒 / 99=無基酒
 
         ---
+        使用範例說明：
         ex1: <b>若 空object，則取得全部調酒品項</b>
         ```
         {}
@@ -91,8 +92,9 @@ paths:
       description: |
         該 API 作為新增調酒品項之用<br>
         
-        使用範例說明：
+        
         ---
+        使用範例說明：
         ex1: <b>若欲新增調酒品項欄位，則將欄位名與值放入物件中</b>
         ```
         {
@@ -163,8 +165,9 @@ paths:
       description: |
         該 API 作為更新調酒品項的欄位<br>
         
-        使用範例說明：
+        
         ---
+        使用範例說明：
         ex1: <b>欲更新調酒品項欄位，則將欄位名與值放入物件中</b>
         ```
         {
@@ -192,6 +195,106 @@ paths:
                   summary: ok
                   value:
                     message: ok.
+
+  /recipes/cocktail/info:
+    post:
+      tags:
+        - recipes 配方食譜
+      summary: 新增調酒配方食譜
+      description: |
+        該 API 作為新增調酒配方食譜之用<br>
+
+        欄位說明： <br>
+        recMethod (調酒方式) <br>
+        1=搖盪法 / 2=攪拌法 / 3=漂浮法 4=滾動法 5=搗碎法 6=果菜機腳辦法 7=其他
+
+        recCup (容器) <br>
+        1=古典杯 Old Fashioned Glass / 2=雞尾酒杯 Cocktail Glass
+        
+        ---
+        使用範例說明：
+        ex1: <b>欲調酒配方食譜，則將欄位名與值放入物件中</b>
+        ```
+        {
+          "cockliSerNo" : 1,
+          "recMaterial" : "加入多原材料",
+          "recDecoration" : "裝飾物要很稀花",
+          "recMethod" : 1,
+          "recCup" : 1,
+          "recSteps": "步驟很簡單",
+          "recABV": 0.03
+        }
+        ```
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cockliSerNo:
+                  type: integer
+                  description: 酒單流水號
+                  example: 1
+                recMaterial:
+                  type: string
+                  description: 材料
+                  example: 琴酒 (非必填，最大長度200)
+                recDecoration:
+                  type: string
+                  description: 裝飾物
+                  example: 八角塊 (非必填，最大長度200)
+                recMethod:
+                  type: integer
+                  description: 調酒方式
+                  example: 1
+                recCup:
+                  type: integer
+                  description: 容器
+                  example: 1
+                recSteps:
+                  type: string
+                  description: 製作步驟
+                  example: 首先...，再來...，然後...，最後...，完成！ (非必填，最大長度600)
+                recABV:
+                  type: integer
+                  description: 酒精濃度	
+                  example: 0.15
+
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              examples:      
+                OK:
+                  summary: ok 
+                  value:
+                    result:
+                      - recSerNo: 9
+                        cockliSerNo: 3
+                        recMaterial: "材料"
+                        recDecoration: "裝飾物"
+                        recMethod: 1
+                        recCup: 1
+                        recSteps: "步驟"
+                        recABV: 0.03
+                        updatedAt: "2021-07-11T05:28:40.532Z"
+                        createdAt: "2021-07-11T05:28:40.532Z"
+                      - recSerNo: "酒譜流水號"
+                        cockliSerNo: "酒單流水號"
+                        recMaterial: "材料"
+                        recDecoration: "裝飾物"
+                        recMethod: "調酒方式"
+                        recCup: "容器"
+                        recSteps: "製作步驟"
+                        recABV: "酒精濃度"
+                        updatedAt: "更新時間"
+                        createdAt: "建立時間"
+        422:
+          $ref: '#/components/responses/422QueryParamsBodyErr'
+        500:
+          $ref: '#/components/responses/500ServerError'
 
 components:
   parameters:
@@ -228,6 +331,6 @@ components:
                   - value: "B52轟炸機"
                     msg: ckChaName's format is wrong
                     param: ckChaName
-                    location: query
+                    location: body
                 code: '9100'
       

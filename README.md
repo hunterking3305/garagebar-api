@@ -21,12 +21,15 @@
 2. Swagger Document
 3. express-validator
 
-# 目前進度：
-1. 90% - express 架構 
-2. 50% - Sequelize 應用
-3. 50% - Swagger 撰寫學習
-4. 40% - express-validator 應用
+# 學習進度：
+1. 75% - express 架構
+2. 65% - Sequelize 應用
+3. 60% - Swagger 撰寫學習
+4. 50% - express-validator 應用
 
 # 前情提要
 - 已使用 validator middleware，加入新增調酒品項API
-- 開發 新增 酒單＆酒譜 的 API
+- 已開發 新增 酒單＆酒譜 的 API
+- 已撰寫 新增 酒單＆酒譜 的 API Swagger Doc
+- 比較一下 log4js ＆ morgan 
+- 學習 log4js 或 morgan
