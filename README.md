@@ -31,5 +31,5 @@
 - 已使用 validator middleware，加入新增調酒品項API
 - 已開發 新增 酒單＆酒譜 的 API
 - 已撰寫 新增 酒單＆酒譜 的 API Swagger Doc
-- 比較一下 log4js ＆ morgan 
-- 學習 log4js 或 morgan
+- 比較一下 log4js ＆ morgan  => 採用 log4js
+- 學習 log4js
