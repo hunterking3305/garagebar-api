@@ -5,8 +5,11 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('garagebar-api:server');
+// var debug = require('debug')('garagebar-api:server');  // [deprecated]
 var http = require('http');
+
+/* Import log4js Module */
+const logger = require("log4js").getLogger("SERVER");
 
 /**
  * Get port from environment and store in Express.
@@ -86,5 +89,6 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  // debug('Listening on ' + bind); // [deprecated]
+  logger.info(`Server is listening on ${bind}`);
 }

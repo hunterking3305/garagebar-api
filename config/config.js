@@ -1,4 +1,4 @@
-let dbConfig = {
+const dbConfig = {
     host: "34.80.169.138",
     user: "root",
     password: "leoking3305",
@@ -9,6 +9,24 @@ let dbConfig = {
     multipleStatements: true,
 };
 
+const log4jsConfig = {
+    appenders: {
+        console: {
+            type: "console",
+        },
+        // file: {
+        //     type: "file",
+        // },
+    },
+    categories: {
+        default: {
+            appenders: ["console"],
+            level: "debug",
+        },
+    },
+};
+
 module.exports = {
     dbConfig,
+    log4jsConfig,
 };

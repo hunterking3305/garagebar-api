@@ -1,8 +1,14 @@
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+
+/** Import Swagger Doc Modules Initial */
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
+
+/** Import log4js Module Initial with configuration */
+const log4js = require('log4js').configure(require("./config/config.js").log4jsConfig);
+const logger = log4js.getLogger("APP");
 
 const productsRouter = require('./routes/products');
 const recipesRouter = require('./routes/recipes');
