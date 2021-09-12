@@ -37,4 +37,4 @@
 5. 30% - log4js 應用
 
 # 待辦項目
-- API update to product...
+- API update to product!
