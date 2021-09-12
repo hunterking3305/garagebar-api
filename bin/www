@@ -90,5 +90,11 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   // debug('Listening on ' + bind); // [deprecated]
-  logger.info(`Server is listening on ${bind}`);
+  logger.info(`
+    Server is runing at 
+      http://localhost:${addr.port}
+    
+    API document is runing at
+      http://localhost:${addr.port}/v1/api-docs
+    `);
 }

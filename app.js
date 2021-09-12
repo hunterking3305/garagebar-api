@@ -10,7 +10,7 @@ const YAML = require('yamljs');
 const log4js = require('log4js').configure(require("./config/config.js").log4jsConfig);
 const logger = log4js.getLogger("APP");
 
-const productsRouter = require('./routes/products');
+const adminProdRouter = require('./routes/admin/products');
 const recipesRouter = require('./routes/recipes');
 
 /* Setup Swagger Documentation File Resource */
@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
  
 // Setup products data api
-app.use('/v1/products', productsRouter);
+app.use('/v1/admin/products', adminProdRouter);
 app.use('/v1/recipes', recipesRouter);
 
 // Setup swagger doc router

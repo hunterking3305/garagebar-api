@@ -6,53 +6,37 @@ info:
 servers:
   - url: 'http://localhost:3000/v1'
 paths:  
-  /products/list:
-    post:
+  /admin/products/list:
+    get:
       tags:
         - products 產品
-      summary: 取得調酒品項清單
+      summary: 取得商品項清單
       description: |
-        該 API 作為調酒品項搜尋之用，每個欄位僅提供精準比對 <br>
+        該 API 作為商品搜尋之用 <br>
         
         欄位說明： <br>
-        cockliClass (調酒類別) <br>
-        1=經典調酒 / 2=創意調酒
-
-        cockliBase (主要基酒) <br>
-        1=威士忌 / 2=伏特加 / 3=蘭姆酒 / 4=琴酒 / 5=白蘭地 / 6=龍舌蘭 / 7=高粱酒 / 98=複合基酒 / 99=無基酒
+        prodName (商品名稱) <br>
 
         ---
         使用範例說明：
-        ex1: <b>若 空object，則取得全部調酒品項</b>
+        ex1: <b>若 空object，則取得全部商品品項</b>
         ```
         {}
         ```
 
-        ex2: <b>cockliClass=1，取得 調酒類別為經典調酒的品項</b>
+        ex2: <b>prodName=Wiskey Sour，會取得 商品名稱=Wiskey Sour</b>
         ```
         {
-          "cockliClass" : 1
+          "prodName" : "Wiskey Sour"
         }
         ```
-
-        ex3: <b> cockliClass=1 + cockliBase=1，取得 調酒類別為經典調酒 and 主要基酒為威士忌 的調酒品項</b>
-        ```
-        {
-          "email" : 1,
-          "phoneNum" : 1
-        }
-        ```
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                cockliChaName:
-                  type: string
-                  description: 中文調酒名
-                  example: 威士忌酸
+      parameters:
+        - in: query
+          required: false
+          name: 商品名稱(非必填)
+          schema:
+            type: string
+            example: "Wiskey Sour"
       responses:
         200:
           description: Successful Operation
@@ -63,18 +47,18 @@ paths:
                   summary: ok 
                   value:
                     result:
-                      - cockliSerNo: 1
-                        cockliChaName: "威士忌酸"
-                        cockliEngName: "Wiskey Sour"
-                        cockliClass: 1
-                        cockliBase: 1
-                        updatedAt: "2021-06-21T21:57:46.000Z"
-                        createdAt: "2021-06-21T21:57:46.000Z"
-                      - cockliSerNo: "酒單流水號"
-                        cockliChaName: "中文調酒名"
-                        cockliEngName: "英文調酒名"
-                        cockliClass: "調酒類別"
-                        cockliBase: "主要基酒"
+                      - prodSerNo: 1
+                        prodName: "Wiskey Sour"
+                        prodType: 1
+                        prodPrice: 100
+                        prodDetail: "威士忌+檸檬+糖水+苦精"
+                        updatedAt: "2021-09-12T10:26:30.000Z"
+                        createdAt: "2021-09-12T10:26:30.000Z"
+                      - prodSerNo: "商品流水號"
+                        prodName: "商品名稱"
+                        prodType: "商品類別"
+                        prodPrice: "商品價格"
+                        prodDetail: "商品詳細資訊"
                         updatedAt: "更新時間"
                         createdAt: "建立時間"
                 NotFound:
@@ -84,24 +68,23 @@ paths:
         500:
           $ref: '#/components/responses/500ServerError'
 
-  /products/cocktail/info:
+  /admin/products/add:
     post:
       tags:
         - products 產品
-      summary: 新增單筆調酒品項
+      summary: 新增單筆商品資料
       description: |
-        該 API 作為新增調酒品項之用<br>
-        
+        該 API 作為新增單筆商品資料之用<br>
         
         ---
         使用範例說明：
-        ex1: <b>若欲新增調酒品項欄位，則將欄位名與值放入物件中</b>
+        ex1: <b>若欲新增單筆商品資料，則將欄位名與值放入物件中</b>
         ```
         {
-          "cockliChaName": "高球雞尾酒",
-          "cockliEngName": "High Ball",
-          "cockliClass": 1,
-          "cockliBase": 1
+          "prodName": "高球雞尾酒 High Ball",
+          "prodType": 1,
+          "prodPrice": 100,
+          "prodDetail": "威士忌+氣泡水+長型透明冰塊，清涼又解渴。"
         }
         ```
       requestBody:
@@ -111,22 +94,22 @@ paths:
             schema:
               type: object
               properties:
-                cockliChaName:
+                prodName:
                   type: string
-                  description: 中文調酒名
-                  example: 高球雞尾酒
-                cockliEngName:
+                  description: 商品名稱
+                  example: 高球雞尾酒 High Ball
+                prodType:
+                  type: integer
+                  description: 商品類別
+                  example: 1
+                prodPrice:
+                  type: integer
+                  description: 商品價格
+                  example: 100
+                prodDetail:
                   type: string
-                  description: 英文調酒名
-                  example: High Ball
-                cockliClass:
-                  type: integer
-                  description: 調酒類別
-                  example: 1
-                cockliBase:
-                  type: integer
-                  description: 主要基酒
-                  example: 1
+                  description: 商品詳細資料
+                  example: 威士忌+氣泡水+長型透明冰塊，清涼又解渴。
       responses:
         200:
           description: Successful Operation
@@ -136,177 +119,33 @@ paths:
                 OK:
                   summary: ok 
                   value:
+                    message: "ok."
                     result:
-                      - cockliSerNo: null,
-                        cockliChaName: "高球雞尾酒"
-                        cockliEngName: "High Ball"
-                        cockliClass: 1
-                        cockliBase: 1
-                        updatedAt: "2021-07-03T06:48:43.296Z"
-                        createdAt: "2021-07-03T06:48:43.296Z"
-                      - cockliSerNo: "酒單流水號"
-                        cockliChaName: "中文調酒名"
-                        cockliEngName: "英文調酒名"
-                        cockliClass: "調酒類別"
-                        cockliBase: "主要基酒"
-                        updatedAt: "更新時間"
-                        createdAt: "建立時間"
-        422:
-          $ref: '#/components/responses/422QueryParamsBodyErr'
-        500:
-          $ref: '#/components/responses/500ServerError'
-
-    put:
-      tags:
-        - products 產品
-      summary: 更新單筆調酒品項
-      parameters:
-        - $ref: '#/components/parameters/CockliSerNo'
-      description: |
-        該 API 作為更新調酒品項的欄位<br>
-        
-        
-        ---
-        使用範例說明：
-        ex1: <b>欲更新調酒品項欄位，則將欄位名與值放入物件中</b>
-        ```
-        {
-          "cockliChaName": "長島冰茶"
-        }
-        ```
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                cockliChaName:
-                  type: string
-                  description: 中文調酒名
-                  example: 長島冰茶
-      responses:
-        200:
-          description: Successful Operation
-          content:
-            application/json:
-              examples:      
-                OK:
-                  summary: ok
+                      prodSerNo: 1
+                      prodName: "高球雞尾酒 High Ball"
+                      prodType: 1
+                      prodPrice: 100
+                      prodDetail: "威士忌+氣泡水+長型透明冰塊，清涼又解渴。"
+                      updatedAt: "2021-07-03T06:48:43.296Z"
+                      createdAt: "2021-07-03T06:48:43.296Z"
+                OK(欄位說明):
+                  summary: ok(欄位說明)
                   value:
-                    message: ok.
-
-  /recipes/cocktail/info:
-    post:
-      tags:
-        - recipes 配方食譜
-      summary: 新增調酒配方食譜
-      description: |
-        該 API 作為新增調酒配方食譜之用<br>
-
-        欄位說明： <br>
-        recMethod (調酒方式) <br>
-        1=搖盪法 / 2=攪拌法 / 3=漂浮法 4=滾動法 5=搗碎法 6=果菜機腳辦法 7=其他
-
-        recCup (容器) <br>
-        1=古典杯 Old Fashioned Glass / 2=雞尾酒杯 Cocktail Glass
-        
-        ---
-        使用範例說明：
-        ex1: <b>欲調酒配方食譜，則將欄位名與值放入物件中</b>
-        ```
-        {
-          "cockliSerNo" : 1,
-          "recMaterial" : "加入多原材料",
-          "recDecoration" : "裝飾物要很稀花",
-          "recMethod" : 1,
-          "recCup" : 1,
-          "recSteps": "步驟很簡單",
-          "recABV": 0.03
-        }
-        ```
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                cockliSerNo:
-                  type: integer
-                  description: 酒單流水號
-                  example: 1
-                recMaterial:
-                  type: string
-                  description: 材料
-                  example: 琴酒 (非必填，最大長度200)
-                recDecoration:
-                  type: string
-                  description: 裝飾物
-                  example: 八角塊 (非必填，最大長度200)
-                recMethod:
-                  type: integer
-                  description: 調酒方式
-                  example: 1
-                recCup:
-                  type: integer
-                  description: 容器
-                  example: 1
-                recSteps:
-                  type: string
-                  description: 製作步驟
-                  example: 首先...，再來...，然後...，最後...，完成！ (非必填，最大長度600)
-                recABV:
-                  type: integer
-                  description: 酒精濃度	
-                  example: 0.15
-
-      responses:
-        200:
-          description: Successful Operation
-          content:
-            application/json:
-              examples:      
-                OK:
-                  summary: ok 
-                  value:
+                    message: "ok."
                     result:
-                      - recSerNo: 9
-                        cockliSerNo: 3
-                        recMaterial: "材料"
-                        recDecoration: "裝飾物"
-                        recMethod: 1
-                        recCup: 1
-                        recSteps: "步驟"
-                        recABV: 0.03
-                        updatedAt: "2021-07-11T05:28:40.532Z"
-                        createdAt: "2021-07-11T05:28:40.532Z"
-                      - recSerNo: "酒譜流水號"
-                        cockliSerNo: "酒單流水號"
-                        recMaterial: "材料"
-                        recDecoration: "裝飾物"
-                        recMethod: "調酒方式"
-                        recCup: "容器"
-                        recSteps: "製作步驟"
-                        recABV: "酒精濃度"
-                        updatedAt: "更新時間"
-                        createdAt: "建立時間"
+                      prodSerNo: "商品流水號"
+                      prodName: "商品名稱"
+                      prodType: "商品類別"
+                      prodPrice: "商品價格"
+                      prodDetail: "商品詳細資訊"
+                      updatedAt: "更新時間"
+                      createdAt: "建立時間"
         422:
           $ref: '#/components/responses/422QueryParamsBodyErr'
         500:
           $ref: '#/components/responses/500ServerError'
 
 components:
-  parameters:
-    CockliSerNo:
-      name: cockliSerNo
-      in: query
-      description: 酒單流水號
-      required: true
-      schema:
-        type: integer
-        example: 1
-
   responses:
     500ServerError:
       description: Server端錯誤
@@ -318,9 +157,8 @@ components:
               message:
                 type: string
                 example: "Server Internal Fault."
-
     422QueryParamsBodyErr:
-      description: query, params or body is null or wrong format
+      description: params or body is null or wrong format
       content:
         application/json:
           examples:
@@ -329,8 +167,231 @@ components:
               value:
                 message:
                   - value: "B52轟炸機"
-                    msg: ckChaName's format is wrong
-                    param: ckChaName
+                    msg: prodouctName's format is wrong
+                    param: prodName
                     location: body
                 code: '9100'
-      
+
+
+#   /products/cocktail/info:
+#     post:
+#       tags:
+#         - products 產品
+#       summary: 新增單筆調酒品項
+#       description: |
+#         該 API 作為新增調酒品項之用<br>
+        
+        
+#         ---
+#         使用範例說明：
+#         ex1: <b>若欲新增調酒品項欄位，則將欄位名與值放入物件中</b>
+#         ```
+#         {
+#           "cockliChaName": "高球雞尾酒",
+#           "cockliEngName": "High Ball",
+#           "cockliClass": 1,
+#           "cockliBase": 1
+#         }
+#         ```
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 cockliChaName:
+#                   type: string
+#                   description: 中文調酒名
+#                   example: 高球雞尾酒
+#                 cockliEngName:
+#                   type: string
+#                   description: 英文調酒名
+#                   example: High Ball
+#                 cockliClass:
+#                   type: integer
+#                   description: 調酒類別
+#                   example: 1
+#                 cockliBase:
+#                   type: integer
+#                   description: 主要基酒
+#                   example: 1
+#       responses:
+#         200:
+#           description: Successful Operation
+#           content:
+#             application/json:
+#               examples:      
+#                 OK:
+#                   summary: ok 
+#                   value:
+#                     result:
+#                       - cockliSerNo: null,
+#                         cockliChaName: "高球雞尾酒"
+#                         cockliEngName: "High Ball"
+#                         cockliClass: 1
+#                         cockliBase: 1
+#                         updatedAt: "2021-07-03T06:48:43.296Z"
+#                         createdAt: "2021-07-03T06:48:43.296Z"
+#                       - cockliSerNo: "酒單流水號"
+#                         cockliChaName: "中文調酒名"
+#                         cockliEngName: "英文調酒名"
+#                         cockliClass: "調酒類別"
+#                         cockliBase: "主要基酒"
+#                         updatedAt: "更新時間"
+#                         createdAt: "建立時間"
+#         422:
+#           $ref: '#/components/responses/422QueryParamsBodyErr'
+#         500:
+#           $ref: '#/components/responses/500ServerError'
+
+#     put:
+#       tags:
+#         - products 產品
+#       summary: 更新單筆調酒品項
+#       parameters:
+#         - $ref: '#/components/parameters/CockliSerNo'
+#       description: |
+#         該 API 作為更新調酒品項的欄位<br>
+        
+        
+#         ---
+#         使用範例說明：
+#         ex1: <b>欲更新調酒品項欄位，則將欄位名與值放入物件中</b>
+#         ```
+#         {
+#           "cockliChaName": "長島冰茶"
+#         }
+#         ```
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 cockliChaName:
+#                   type: string
+#                   description: 中文調酒名
+#                   example: 長島冰茶
+#       responses:
+#         200:
+#           description: Successful Operation
+#           content:
+#             application/json:
+#               examples:      
+#                 OK:
+#                   summary: ok
+#                   value:
+#                     message: ok.
+
+#   /recipes/cocktail/info:
+#     post:
+#       tags:
+#         - recipes 配方食譜
+#       summary: 新增調酒配方食譜
+#       description: |
+#         該 API 作為新增調酒配方食譜之用<br>
+
+#         欄位說明： <br>
+#         recMethod (調酒方式) <br>
+#         1=搖盪法 / 2=攪拌法 / 3=漂浮法 4=滾動法 5=搗碎法 6=果菜機腳辦法 7=其他
+
+#         recCup (容器) <br>
+#         1=古典杯 Old Fashioned Glass / 2=雞尾酒杯 Cocktail Glass
+        
+#         ---
+#         使用範例說明：
+#         ex1: <b>欲調酒配方食譜，則將欄位名與值放入物件中</b>
+#         ```
+#         {
+#           "cockliSerNo" : 1,
+#           "recMaterial" : "加入多原材料",
+#           "recDecoration" : "裝飾物要很稀花",
+#           "recMethod" : 1,
+#           "recCup" : 1,
+#           "recSteps": "步驟很簡單",
+#           "recABV": 0.03
+#         }
+#         ```
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               type: object
+#               properties:
+#                 cockliSerNo:
+#                   type: integer
+#                   description: 酒單流水號
+#                   example: 1
+#                 recMaterial:
+#                   type: string
+#                   description: 材料
+#                   example: 琴酒 (非必填，最大長度200)
+#                 recDecoration:
+#                   type: string
+#                   description: 裝飾物
+#                   example: 八角塊 (非必填，最大長度200)
+#                 recMethod:
+#                   type: integer
+#                   description: 調酒方式
+#                   example: 1
+#                 recCup:
+#                   type: integer
+#                   description: 容器
+#                   example: 1
+#                 recSteps:
+#                   type: string
+#                   description: 製作步驟
+#                   example: 首先...，再來...，然後...，最後...，完成！ (非必填，最大長度600)
+#                 recABV:
+#                   type: integer
+#                   description: 酒精濃度	
+#                   example: 0.15
+
+#       responses:
+#         200:
+#           description: Successful Operation
+#           content:
+#             application/json:
+#               examples:      
+#                 OK:
+#                   summary: ok 
+#                   value:
+#                     result:
+#                       - recSerNo: 9
+#                         cockliSerNo: 3
+#                         recMaterial: "材料"
+#                         recDecoration: "裝飾物"
+#                         recMethod: 1
+#                         recCup: 1
+#                         recSteps: "步驟"
+#                         recABV: 0.03
+#                         updatedAt: "2021-07-11T05:28:40.532Z"
+#                         createdAt: "2021-07-11T05:28:40.532Z"
+#                       - recSerNo: "酒譜流水號"
+#                         cockliSerNo: "酒單流水號"
+#                         recMaterial: "材料"
+#                         recDecoration: "裝飾物"
+#                         recMethod: "調酒方式"
+#                         recCup: "容器"
+#                         recSteps: "製作步驟"
+#                         recABV: "酒精濃度"
+#                         updatedAt: "更新時間"
+#                         createdAt: "建立時間"
+#         422:
+#           $ref: '#/components/responses/422QueryParamsBodyErr'
+#         500:
+#           $ref: '#/components/responses/500ServerError'
+
+# components:
+#   parameters:
+#     CockliSerNo:
+#       name: cockliSerNo
+#       in: query
+#       description: 酒單流水號
+#       required: true
+#       schema:
+#         type: integer
+#         example: 1

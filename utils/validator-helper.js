@@ -7,15 +7,14 @@ let validateResult = (req, res, next)=>{
     next();
 };
 
-// 新增產品 req.body 參數檢查
-let newProdBodyValid = [
-    body("cockliChaName").trim().notEmpty().withMessage("cockliChaName is required"),
-    body("cockliEngName").trim().notEmpty().withMessage("cockliEngName is required"),
-    body("cockliClass").exists().withMessage("cockliClass is required"),
-    body("cockliBase").exists().withMessage("cockliBase is required"),
+// 參數檢查 單筆product資料 
+let productInfoValid = [
+    body("prodName").trim().notEmpty().withMessage("prodName is required"),
+    body("prodType").exists().withMessage("prodType is required"),
+    body("prodPrice").exists().withMessage("prodPrice is required"),
 ];
 
 module.exports = {
     validateResult,
-    newProdBodyValid,
+    productInfoValid,
 };

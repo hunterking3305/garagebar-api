@@ -8,9 +8,16 @@
 3. 啟動開發環境：
     >> npm run devstart
 4. API Document：
-    >> localhost:3000/v1/api-docs
-5. DB phpmyadmin：
-    >> 34.80.169.138:8080
+    >> http://localhost:3000/v1/api-docs
+5. DB phpmyadmin：(root/le*******05)
+    >> http://34.80.169.138:8080
+
+# 後台系統功能 API：
+1. (yet)新增上架菜單品項（酒品項＆餐品項）
+2. (yet)修改上架菜單品項（酒品項＆餐品項）
+3. (yet)刪除上架菜單品項（酒品項＆餐品項）
+  -- 建議 recipe 與 productItem 合併成一張 table 並隸屬於某 merchant
+4. (yet)菜單一覽功能（分類查詢）
 
 # 使用來源：
 1. express-generator（express 產生器）
@@ -20,16 +27,15 @@
 1. Sequelize ORM
 2. Swagger Document
 3. express-validator
+4. log4js
 
 # 學習進度：
 1. 75% - express 架構
 2. 65% - Sequelize 應用
 3. 60% - Swagger 撰寫學習
 4. 50% - express-validator 應用
+5. 30% - log4js 應用
 
-# 前情提要
-- 已使用 validator middleware，加入新增調酒品項API
-- 已開發 新增 酒單＆酒譜 的 API
-- 已撰寫 新增 酒單＆酒譜 的 API Swagger Doc
-- 比較一下 log4js ＆ morgan  => 採用 log4js
-- 學習 log4js
+# 待辦項目
+- 用 figma 製作，菜單上架後台（調酒&食物）
+- 製作新版 schema 並重新調整 DB -> 新增 products(含recipe) & merchant
