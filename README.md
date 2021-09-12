@@ -37,5 +37,4 @@
 5. 30% - log4js 應用
 
 # 待辦項目
-- 用 figma 製作，菜單上架後台（調酒&食物）
-- 製作新版 schema 並重新調整 DB -> 新增 products(含recipe) & merchant
+- API update to product

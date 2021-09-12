@@ -7,6 +7,22 @@ const Products = sequelize.define('products', {
         autoIncrement: true,
         primaryKey: true,
     },
+    merSerNo: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+            model: 'merchants',
+            key: 'merSerNo',
+        },
+    },
+    prodTypeSerNo: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+            model: 'product_type_index',
+            key: 'prodTypeSerNo',
+        },
+    },
     prodName: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -16,11 +32,11 @@ const Products = sequelize.define('products', {
     },
     prodType: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
     },
     prodPrice: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        allowNull: false,
         defaultValue: 0,
         validate: {
             min: 0,
@@ -29,10 +45,15 @@ const Products = sequelize.define('products', {
     },
     prodDetail: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
             len: [0, 250],
         },
+    },
+    prodStatus: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
     },
     updatedAt: {
         type: DataTypes.DATE,

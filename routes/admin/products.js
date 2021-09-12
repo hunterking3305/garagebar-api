@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const { Op } = require('sequelize');
-// const CocktailList = require('../models/schema/cocktailList.js').CocktailList;
 const Products = require('../../models/schema/products.js').Products;
 
 const validatorHelper = require('../../utils/validator-helper.js');
@@ -61,6 +60,11 @@ router.post("/add",
             next(error);
         };
 });
+
+// [API] - 更新 單筆product資料  
+
+// comming soon...
+
 
 // router.post("/cocktail/info",
 //     validatorHelper.newProdBodyValid,

@@ -81,10 +81,13 @@ paths:
         ex1: <b>若欲新增單筆商品資料，則將欄位名與值放入物件中</b>
         ```
         {
+          "merSerNo": 1,
+          "prodTypeSerNo": 1,
           "prodName": "高球雞尾酒 High Ball",
           "prodType": 1,
           "prodPrice": 100,
-          "prodDetail": "威士忌+氣泡水+長型透明冰塊，清涼又解渴。"
+          "prodDetail": "威士忌+氣泡水+長型透明冰塊，清涼又解渴。",
+          "prodStatus": 1
         }
         ```
       requestBody:
@@ -94,6 +97,14 @@ paths:
             schema:
               type: object
               properties:
+                merSerNo:
+                  type: interger
+                  description: 商家流水號
+                  example: 1
+                prodTypeSerNo:
+                  type: interger
+                  description: 商品類型流水號
+                  example: 1
                 prodName:
                   type: string
                   description: 商品名稱
@@ -110,6 +121,10 @@ paths:
                   type: string
                   description: 商品詳細資料
                   example: 威士忌+氣泡水+長型透明冰塊，清涼又解渴。
+                prodStatus:
+                  type: integer
+                  description: 商品供貨狀態
+                  example: 1
       responses:
         200:
           description: Successful Operation
